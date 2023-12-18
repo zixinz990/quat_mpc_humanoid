@@ -7,6 +7,8 @@
     <arg name="paused" default="true"/>
     <arg name="use_sim_time" default="true"/>
     <arg name="headless" default="false"/>
+
+    <param name="robot_name" value="$(arg rname)"/>
     
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find humanoid_gazebo)/worlds/$(arg wname).world"/>
@@ -35,9 +37,5 @@
           respawn="false" output="screen">
         <remap from="/joint_states" to="/$(arg rname)/joint_states"/>
     </node>
-
-    <include file="$(find unitree_controller)/launch/set_ctrl.launch">
-        <arg name="rname" value="$(arg rname)"/>
-    </include>
 
 </launch>
