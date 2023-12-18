@@ -37,8 +37,8 @@ target_link_libraries(set_default_joint_pos ${catkin_LIBRARIES})
 add_executable(set_default_body_pose src/set_default_body_pose.cpp)
 target_link_libraries(set_default_body_pose ${catkin_LIBRARIES})
 
-# add_library(unitreeFootContactPlugin SHARED plugin/foot_contact_plugin.cc)
-# target_link_libraries(unitreeFootContactPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_library(unitreeFootContactPlugin SHARED plugin/foot_contact_plugin.cc)
+target_link_libraries(unitreeFootContactPlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
-# add_library(unitreeDrawForcePlugin SHARED plugin/draw_force_plugin.cc)
-# target_link_libraries(unitreeDrawForcePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_library(unitreeDrawForcePlugin SHARED plugin/draw_force_plugin.cc)
+target_link_libraries(unitreeDrawForcePlugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
