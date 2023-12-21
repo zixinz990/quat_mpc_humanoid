@@ -16,7 +16,7 @@
         <inertial>
             <origin xyz="0.009598 0.000935 0.151714" rpy="0 0 0"/>
             <mass value="7.954054"/>
-            <inertia ixx="0.168459" ixy="0.000124" ixz="0.006493" iyy="0.101358" iyz="0.000278" izz="0.091754"/>
+            <inertia ixx="0.168459" ixy="0.0" ixz="0.006493" iyy="0.101358" iyz="0.0" izz="0.091754"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -35,6 +35,19 @@
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <parent link="base"/>
         <child link="torso"/>
+    </joint>
+    <link name="torso_com">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.001"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="torso_com_joint" type="fixed">
+        <origin xyz="-0.003261 0.0 0.172278" rpy="0 0 0"/>
+        <parent link="torso"/>
+        <child link="torso_com"/>
     </joint>
     <xacro:leg_transmission leg_name="left"/>
     <xacro:leg_transmission leg_name="right"/>

@@ -25,7 +25,7 @@
         <inertial>
             <origin xyz="0.000117 0.000122 -0.082758" rpy="0 0 0"/>
             <mass value="0.801249"/>
-            <inertia ixx="0.001136" ixy="0.000001" ixz="0.000016" iyy="0.001175" iyz="0.000001" izz="0.001241"/>
+            <inertia ixx="0.001136" ixy="0.0" ixz="0.000016" iyy="0.001175" iyz="0.0" izz="0.001241"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -35,7 +35,7 @@
         </visual>
     </link>
     <joint name="left_shoulder_abad_joint" type="fixed">
-        <origin xyz="0 0.05760 0" rpy="0.0 0 0"/>
+        <origin xyz="0 0.05760 0" rpy="0 0 0"/>
         <parent link="left_shoulder"/>
         <child link="left_shoulder_2"/>
         <axis xyz="1 0 0"/>
@@ -46,7 +46,7 @@
         <inertial>
             <origin xyz="-0.000073 -0.016471 -0.063210" rpy="0 0 0"/>
             <mass value="0.905588"/>
-            <inertia ixx="0.001353" ixy="0.000002" ixz="0.000001" iyy="0.001804" iyz="-0.000061" izz="0.000796"/>
+            <inertia ixx="0.001353" ixy="0.0" ixz="0.0" iyy="0.001804" iyz="-0.000061" izz="0.000796"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -73,7 +73,7 @@
         <inertial>
             <origin xyz="-0.007103 -0.000073 -0.099203" rpy="0 0 0"/>
             <mass value="0.348390"/>
-            <inertia ixx="0.003400" ixy="0.0" ixz="-0.000049" iyy="0.003453" iyz="-0.000002" izz="0.000078"/>
+            <inertia ixx="0.003400" ixy="0.0" ixz="-0.000049" iyy="0.003453" iyz="0.0" izz="0.000078"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -118,7 +118,7 @@
         <inertial>
             <origin xyz="0.009518 -0.053027 0.000060" rpy="0 0 0"/>
             <mass value="0.788506"/>
-            <inertia ixx="0.001363" ixy="-0.000024" ixz="0.000002" iyy="0.000759" iyz="0.000001" izz="0.000866"/>
+            <inertia ixx="0.001363" ixy="-0.000024" ixz="-0.000002" iyy="0.000759" iyz="-0.000001" izz="0.000866"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -139,7 +139,7 @@
         <inertial>
             <origin xyz="0.000117 -0.000122 -0.082758" rpy="0 0 0"/>
             <mass value="0.801249"/>
-            <inertia ixx="0.001136" ixy="-0.000001" ixz="-0.000016" iyy="0.001175" iyz="0.000001" izz="0.001241"/>
+            <inertia ixx="0.001136" ixy="0.0" ixz="0.000016" iyy="0.001175" iyz="0.0" izz="0.001241"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -149,7 +149,7 @@
         </visual>
     </link>
     <joint name="right_shoulder_abad_joint" type="fixed">
-        <origin xyz="0 -0.05760 0" rpy="0.0 0 0"/>
+        <origin xyz="0 -0.05760 0" rpy="0 0 0"/>
         <parent link="right_shoulder"/>
         <child link="right_shoulder_2"/>
         <axis xyz="-1 0 0"/>
@@ -160,7 +160,7 @@
         <inertial>
             <origin xyz="-0.000073 0.016471 -0.063210" rpy="0 0 0"/>
             <mass value="0.905588"/>
-            <inertia ixx="0.001353" ixy="-0.000002" ixz="-0.000001" iyy="0.001804" iyz="-0.000061" izz="0.000796"/>
+            <inertia ixx="0.001353" ixy="0.0" ixz="0.0" iyy="0.001804" iyz="0.000061" izz="0.000796"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -187,7 +187,7 @@
         <inertial>
             <origin xyz="-0.007103 -0.000073 -0.099203" rpy="0 0 0"/>
             <mass value="0.348390"/>
-            <inertia ixx="0.003400" ixy="0.0" ixz="-0.000049" iyy="0.003453" iyz="-0.000002" izz="0.000078"/>
+            <inertia ixx="0.003400" ixy="0.0" ixz="-0.000049" iyy="0.003453" iyz="0.0" izz="0.000078"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
