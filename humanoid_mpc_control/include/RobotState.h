@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 
 #define NUM_JOINTS 20
+#define ACT_JOINTS 10
 #define LEG_DOF 5
 #define MPC_STATE_DIM 13
 #define MPC_INPUT_DIM 12
@@ -26,6 +27,7 @@ class RobotFeedback {
 
     // Torso velocity
     Eigen::Vector3d torso_lin_vel_world;  // from Gazebo
+    Eigen::Vector3d torso_ang_vel_world;  // from Gazebo
     Eigen::Vector3d torso_ang_vel_body;   // from Gazebo
 
     // Joint states
@@ -49,9 +51,11 @@ class RobotControl {
 
     // Desired torso position
     Eigen::Vector3d torso_pos_d_world;
+    Eigen::Vector3d torso_pos_d_rel;
 
     // Desired torso attitude
     Eigen::Quaterniond torso_quat_d;
+    Eigen::Vector3d torso_euler_d;
 
     // Desired torso velocity
     Eigen::Vector3d torso_lin_vel_d_world;
@@ -69,7 +73,6 @@ class RobotControl {
 class RobotJoyCmd {
    public:
     RobotJoyCmd() { reset(); }
-    ~RobotJoyCmd();
 
     void reset();
 

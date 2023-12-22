@@ -64,8 +64,19 @@ include_directories(
 # utils_lib
 add_library(utils_lib
         src/RobotState.cpp
+        src/GazeboInterface.cpp
 )
 target_link_libraries(utils_lib
         ${catkin_LIBRARIES}
+        Eigen3::Eigen
+)
+
+######################## MAIN EXECUTABLE TARGETS ########################
+# main
+add_executable(main
+        src/Main.cpp
+)
+target_link_libraries(main
+        utils_lib
         Eigen3::Eigen
 )

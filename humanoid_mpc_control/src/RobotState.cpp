@@ -6,6 +6,7 @@ void RobotFeedback::reset() {
     torso_quat.setIdentity();
     torso_rot_mat.setIdentity();
     torso_lin_vel_world.setZero();
+    torso_ang_vel_world.setZero();
     torso_ang_vel_body.setZero();
     joint_pos.setZero();
     joint_vel.setZero();
@@ -14,6 +15,7 @@ void RobotFeedback::reset() {
 
 void RobotControl::reset() {
     torso_pos_d_world.setZero();
+    torso_pos_d_rel.setZero();
     torso_quat_d.setIdentity();
     torso_lin_vel_d_world.setZero();
     torso_ang_vel_d_body.setZero();
