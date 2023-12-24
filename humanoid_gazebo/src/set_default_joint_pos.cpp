@@ -9,8 +9,8 @@
 
 int main(int argc, char **argv) {
     // Set target joint positions
-    double joint_pos[10] = {0.0, 0.0, 0.0, 0.0, 0.0,
-                            0.0, 0.0, 0.0, 0.0, 0.0};
+    double joint_pos[10] = {0.0, 0.0, -1.25 * 3.14 / 24, 3 * 3.14 / 24, -1.7 * 3.14 / 24,
+                            0.0, 0.0, -1.25 * 3.14 / 24, 3 * 3.14 / 24, -1.7 * 3.14 / 24};
 
     // Initialize ROS
     ros::init(argc, argv, "set_default_joint_pose");
@@ -38,9 +38,9 @@ int main(int argc, char **argv) {
     for (int i = 0; i < 10; i++) {
         low_cmd.motorCmd[i].mode = 0x0A;
         low_cmd.motorCmd[i].q = joint_pos[i];
-        low_cmd.motorCmd[i].Kp = 300;
+        low_cmd.motorCmd[i].Kp = 500;
         low_cmd.motorCmd[i].dq = 0;
-        low_cmd.motorCmd[i].Kd = 10;
+        low_cmd.motorCmd[i].Kd = 15;
         low_cmd.motorCmd[i].tau = 0;
     }
 

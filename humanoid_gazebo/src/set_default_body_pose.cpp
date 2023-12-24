@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     model_state_msg.reference_frame = "world";
     model_state_msg.pose.position.x = 0.0;
     model_state_msg.pose.position.y = 0.0;
-    model_state_msg.pose.position.z = 0.7;
+    model_state_msg.pose.position.z = 0.685;
     model_state_msg.pose.orientation.x = 0.0;
     model_state_msg.pose.orientation.y = 0.0;
     model_state_msg.pose.orientation.z = 0.0;

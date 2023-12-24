@@ -2,15 +2,16 @@
 <sdf version="1.5">
     <world name="default">
         <physics type="ode">
-        <max_step_size>0.0002</max_step_size>
-        <real_time_factor>1</real_time_factor>
+        <max_step_size>0.00015</max_step_size>
+        <real_time_factor>0.5</real_time_factor>
         <real_time_update_rate>2500</real_time_update_rate>
         <gravity>0 0 -9.81</gravity>
             <ode>
                 <solver>
                     <type>quick</type>
-                    <iters>80</iters>
+                    <iters>120</iters>
                     <sor>1.3</sor>
+                    <friction_model>cone_model</friction_model>
                 </solver>  
                 <constraints>
                     <cfm>0.0</cfm>
