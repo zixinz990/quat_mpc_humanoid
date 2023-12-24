@@ -6,7 +6,7 @@
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Joy.h>
-#include <unitree_legged_msgs/MotorCmd.h>
+#include <unitree_legged_msgs/LowCmd.h>
 #include <unitree_legged_msgs/MotorState.h>
 
 #include "RobotState.h"
@@ -18,7 +18,7 @@ class GazeboInterface {
    public:
     GazeboInterface(ros::NodeHandle& nh, string robot_name);
 
-    void ctrl_update(double dt);
+    void ctrl_update();
     void fbk_update();
     void send_cmd();
 
@@ -33,7 +33,7 @@ class GazeboInterface {
     ros::Subscriber sub_joy;
 
     // ROS messages
-    unitree_legged_msgs::MotorCmd low_cmd;
+    unitree_legged_msgs::LowCmd low_cmd;
 
     // Callback functions
     void torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg);

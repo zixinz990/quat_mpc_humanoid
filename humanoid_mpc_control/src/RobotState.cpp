@@ -10,7 +10,8 @@ void RobotFeedback::reset() {
     torso_ang_vel_body.setZero();
     joint_pos.setZero();
     joint_vel.setZero();
-    foot_jacobian.setZero();
+    left_foot_jac.setZero();
+    right_foot_jac.setZero();
 }
 
 void RobotControl::reset() {

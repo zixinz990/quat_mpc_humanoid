@@ -40,7 +40,8 @@ class RobotFeedback {
     Eigen::Matrix<double, NUM_JOINTS, 1> joint_vel;
 
     // Foot Jacobian matrix
-    Eigen::Matrix<double, 3, LEG_DOF * 2> foot_jacobian; // [left_foot_jacobian, right_foot_jacobian]
+    Eigen::Matrix<double, 3, LEG_DOF> left_foot_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> right_foot_jac;
 };
 
 class RobotControl {

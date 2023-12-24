@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
         while (ros::ok()) {
             mtx.lock();
             intf_ptr->fbk_update();
+            intf_ptr->ctrl_update();
             loop_rate.sleep();
             mtx.unlock();
         }

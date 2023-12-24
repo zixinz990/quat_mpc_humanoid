@@ -1,4 +1,5 @@
 #include "GazeboInterface.h"
+#include "Kinematics.h"
 
 using namespace std;
 
@@ -34,8 +35,35 @@ GazeboInterface::GazeboInterface(ros::NodeHandle& nh, string robot_name) {
     sub_joy = nh.subscribe("/joy", 1, &GazeboInterface::joy_callback, this);
 }
 
+void GazeboInterface::ctrl_update() {
+    robot_state.ctrl.joint_pos_d = robot_state.fbk.joint_pos;
+    robot_state.ctrl.joint_vel_d = robot_state.fbk.joint_vel;
+    // robot_state.ctrl.grf_d[2] = -robot_state.params.robot_mass * 9.81 / 2;
+    // robot_state.ctrl.grf_d[5] = -robot_state.params.robot_mass * 9.81 / 2;
+
+    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(0, 0) = robot_state.fbk.left_foot_jac.transpose() * robot_state.ctrl.grf_d.block<3, 1>(0, 0);
+    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(LEG_DOF, 0) = robot_state.fbk.right_foot_jac.transpose() * robot_state.ctrl.grf_d.block<3, 1>(3, 0);
+    send_cmd();
+}
+
 void GazeboInterface::fbk_update() {
-    cout << robot_state.joy_cmd.joy_vel_x << endl;
+    // Calculate foot Jacobian
+    robot_state.fbk.left_foot_jac = Kinematics::cal_left_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    robot_state.fbk.right_foot_jac = Kinematics::cal_right_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));    
+}
+
+void GazeboInterface::send_cmd() {
+    for (int i = 0; i < ACT_JOINTS; i++) {
+        low_cmd.motorCmd[i].mode = 0x0A;
+        low_cmd.motorCmd[i].q = 0;
+        low_cmd.motorCmd[i].dq = 0;
+        low_cmd.motorCmd[i].Kp = 0;
+        low_cmd.motorCmd[i].Kd = 0;
+        low_cmd.motorCmd[i].tau = robot_state.params.joint_kp * (robot_state.ctrl.joint_pos_d[i] - robot_state.fbk.joint_pos[i]) +
+                                  robot_state.params.joint_kd * (robot_state.ctrl.joint_vel_d[i] - robot_state.fbk.joint_vel[i]) +
+                                  robot_state.ctrl.joint_tau_d[i];
+        pub_joint_cmd[i].publish(low_cmd.motorCmd[i]);
+    }
 }
 
 void GazeboInterface::torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg) {
