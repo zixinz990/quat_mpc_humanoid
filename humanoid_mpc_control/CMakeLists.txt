@@ -65,6 +65,7 @@ include_directories(
 add_library(utils_lib
         src/RobotState.cpp
         src/GazeboInterface.cpp
+        src/Kinematics.cpp
 )
 target_link_libraries(utils_lib
         ${catkin_LIBRARIES}
