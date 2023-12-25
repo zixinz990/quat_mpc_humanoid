@@ -35,8 +35,10 @@ FetchContent_MakeAvailable(Eigen)
 FetchContent_Declare(
         Altro
         # SOURCE_DIR /home/zixin/Dev/ALTRO
-        GIT_REPOSITORY https://github.com/RoboticExplorationLab/ALTRO.git
-        GIT_TAG 0cb4f9c8ed7d619bfc3c127bb2f7826261bcc5a4
+        # GIT_REPOSITORY https://github.com/RoboticExplorationLab/ALTRO.git
+        # GIT_TAG 0cb4f9c8ed7d619bfc3c127bb2f7826261bcc5a4
+        GIT_REPOSITORY GIT_REPOSITORY https://github.com/zixinz990/altro.git
+        GIT_TAG 96dd38f998cd3256091cfa1520f4b9f45d68b4cb
 )
 FetchContent_MakeAvailable(Altro)
 
@@ -66,10 +68,15 @@ add_library(utils_lib
         src/RobotState.cpp
         src/GazeboInterface.cpp
         src/Kinematics.cpp
+        src/Utils.cpp
+        src/HumanoidModel.cpp
 )
 target_link_libraries(utils_lib
         ${catkin_LIBRARIES}
+        altro::altro
         Eigen3::Eigen
+        fmt::fmt
+        nlohmann_json::nlohmann_json        
 )
 
 ######################## MAIN EXECUTABLE TARGETS ########################
