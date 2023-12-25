@@ -4,14 +4,18 @@ namespace robot {
 void RobotFeedback::reset() {
     torso_pos_world.setZero();
     torso_quat.setIdentity();
+    torso_euler.setZero();
     torso_rot_mat.setIdentity();
+    torso_rot_mat_z.setIdentity();
     torso_lin_vel_world.setZero();
+    torso_lin_vel_body.setZero();
     torso_ang_vel_world.setZero();
     torso_ang_vel_body.setZero();
     joint_pos.setZero();
     joint_vel.setZero();
     left_foot_jac.setZero();
     right_foot_jac.setZero();
+    foot_pos_body.setZero();
 }
 
 void RobotControl::reset() {
@@ -19,6 +23,7 @@ void RobotControl::reset() {
     torso_pos_d_rel.setZero();
     torso_quat_d.setIdentity();
     torso_lin_vel_d_world.setZero();
+    torso_lin_vel_d_rel.setZero();
     torso_ang_vel_d_body.setZero();
     grf_d.setZero();
     joint_pos_d.setZero();
@@ -46,10 +51,14 @@ void RobotParams::reset() {
                      0.006493, 0.000278, 0.091754;
     mu = 0.6;
     grf_z_max = 500.0;
+    mpc_dt = 0.01;
+    mpc_horizon = 20;
     mpc_q_weights << 1.0, 1.0, 1.0,
                      0.0, 0.0, 0.0, 0.0,
                      1.0, 1.0, 1.0,
                      1.0, 1.0, 1.0;
+    mpc_r_weights << 0.000001, 0.000001, 0.000001,
+                     0.000001, 0.000001, 0.000001;
     mpc_quat_weight = 1.0;
     joint_kp = 300.0;
     joint_kd = 10.0;
@@ -76,6 +85,8 @@ void RobotParams::load(ros::NodeHandle &nh) {
                      robot_inertia_xz, robot_inertia_yz, robot_inertia_zz;
     nh.param("mu", mu, 0.6);
     nh.param("grf_z_max", grf_z_max, 500.0);
+    nh.param("mpc_dt", mpc_dt, 0.01);
+    nh.param("mpc_horizon", mpc_horizon, 20);
     double mpc_q_0, mpc_q_1, mpc_q_2, mpc_q_3, mpc_q_4, mpc_q_5, mpc_q_6, mpc_q_7, mpc_q_8, mpc_q_9, mpc_q_10, mpc_q_11, mpc_q_12;
     nh.param("mpc_q_0", mpc_q_0, 1.0);
     nh.param("mpc_q_1", mpc_q_1, 1.0);
@@ -95,6 +106,15 @@ void RobotParams::load(ros::NodeHandle &nh) {
                      mpc_q_7, mpc_q_8, mpc_q_9,
                      mpc_q_10, mpc_q_11, mpc_q_12;
     nh.param("mpc_quat_weight", mpc_quat_weight, 1.0);
+    double mpc_r_0, mpc_r_1, mpc_r_2, mpc_r_3, mpc_r_4, mpc_r_5;
+    nh.param("mpc_r_0", mpc_r_0, 0.000001);
+    nh.param("mpc_r_1", mpc_r_1, 0.000001);
+    nh.param("mpc_r_2", mpc_r_2, 0.000001);
+    nh.param("mpc_r_3", mpc_r_3, 0.000001);
+    nh.param("mpc_r_4", mpc_r_4, 0.000001);
+    nh.param("mpc_r_5", mpc_r_5, 0.000001);
+    mpc_r_weights << mpc_r_0, mpc_r_1, mpc_r_2,
+                     mpc_r_3, mpc_r_4, mpc_r_5;
     nh.param("joint_kp", joint_kp, 300.0);
     nh.param("joint_kd", joint_kd, 10.0);
     nh.param("joy_vel_x_max", joy_vel_x_max, 1.0);

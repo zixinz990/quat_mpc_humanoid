@@ -358,5 +358,4 @@ Eigen::Matrix<double, 3, LEG_DOF> Kinematics::cal_right_foot_jac(const Eigen::Ma
     
     return right_foot_jac;
 }
-
 }  // namespace robot

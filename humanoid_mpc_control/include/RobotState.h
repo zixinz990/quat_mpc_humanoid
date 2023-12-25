@@ -8,7 +8,7 @@
 #define ACT_JOINTS 10
 #define LEG_DOF 5
 #define MPC_STATE_DIM 13
-#define MPC_INPUT_DIM 12
+#define MPC_INPUT_DIM 6
 
 namespace robot {
 class RobotFeedback {
@@ -23,10 +23,13 @@ class RobotFeedback {
     // Torso attitude
     // Definition of attitude: rotation from body frame to world frame, v_w = R * v_b
     Eigen::Quaterniond torso_quat;  // from Gazebo
+    Eigen::Vector3d torso_euler;
     Eigen::Matrix3d torso_rot_mat;
+    Eigen::Matrix3d torso_rot_mat_z;
 
     // Torso velocity
     Eigen::Vector3d torso_lin_vel_world;  // from Gazebo
+    Eigen::Vector3d torso_lin_vel_body;
     Eigen::Vector3d torso_ang_vel_world;  // from Gazebo
     Eigen::Vector3d torso_ang_vel_body;   // from Gazebo
 
@@ -42,6 +45,9 @@ class RobotFeedback {
     // Foot Jacobian matrix
     Eigen::Matrix<double, 3, LEG_DOF> left_foot_jac;
     Eigen::Matrix<double, 3, LEG_DOF> right_foot_jac;
+
+    // Foot position
+    Eigen::Matrix<double, 3, 2> foot_pos_body;
 };
 
 class RobotControl {
@@ -60,6 +66,7 @@ class RobotControl {
 
     // Desired torso velocity
     Eigen::Vector3d torso_lin_vel_d_world;
+    Eigen::Vector3d torso_lin_vel_d_rel;
     Eigen::Vector3d torso_ang_vel_d_body;
 
     // Desired ground reaction force
@@ -99,7 +106,8 @@ class RobotParams {
     double grf_z_max;
 
     // MPC parameters
-    double mpc_horizon;    
+    double mpc_dt;
+    int mpc_horizon;
     Eigen::Matrix<double, MPC_STATE_DIM, 1> mpc_q_weights;
     Eigen::Matrix<double, MPC_INPUT_DIM, 1> mpc_r_weights;
     double mpc_quat_weight;

@@ -1,9 +1,6 @@
 #include "GazeboInterface.h"
 #include "Kinematics.h"
 
-using namespace std;
-
-namespace robot {
 GazeboInterface::GazeboInterface(ros::NodeHandle& nh, string robot_name) {
     // ROS publishers
     pub_joint_cmd[0] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/left_hip_yaw_controller/command", 1);
@@ -32,7 +29,10 @@ GazeboInterface::GazeboInterface(ros::NodeHandle& nh, string robot_name) {
     sub_joint_states[9] = nh.subscribe("/" + robot_name + "/right_ankle_controller/state", 1, &GazeboInterface::right_ankle_state_callback, this);
 
     sub_torso_com_odom = nh.subscribe("/" + robot_name + "/torso_com_odom", 1, &GazeboInterface::torso_com_odom_callback, this);
+    sub_torso_imu = nh.subscribe("/" + robot_name + "/torso_imu", 1, &GazeboInterface::torso_imu_callback, this);
     sub_joy = nh.subscribe("/joy", 1, &GazeboInterface::joy_callback, this);
+
+    robot_state.params.load(nh);
 }
 
 void GazeboInterface::ctrl_update() {
@@ -47,9 +47,17 @@ void GazeboInterface::ctrl_update() {
 }
 
 void GazeboInterface::fbk_update() {
+    // Calculate rotation matrix
+    robot_state.fbk.torso_rot_mat = robot_state.fbk.torso_quat.toRotationMatrix();
+    robot_state.fbk.torso_euler = Utils::quat_to_euler(robot_state.fbk.torso_quat);
+    robot_state.fbk.torso_rot_mat_z = Eigen::AngleAxisd(robot_state.fbk.torso_euler[2], Eigen::Vector3d::UnitZ());
+
     // Calculate foot Jacobian
     robot_state.fbk.left_foot_jac = Kinematics::cal_left_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
-    robot_state.fbk.right_foot_jac = Kinematics::cal_right_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));    
+    robot_state.fbk.right_foot_jac = Kinematics::cal_right_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+
+    // Some coordinate transformation
+    robot_state.fbk.torso_lin_vel_body = robot_state.fbk.torso_rot_mat.transpose() * robot_state.fbk.torso_lin_vel_world;
 }
 
 void GazeboInterface::send_cmd() {
@@ -80,6 +88,12 @@ void GazeboInterface::torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr
     robot_state.fbk.torso_ang_vel_world << odom_msg->twist.twist.angular.x,
                                            odom_msg->twist.twist.angular.y,
                                            odom_msg->twist.twist.angular.z;
+}
+
+void GazeboInterface::torso_imu_callback(const sensor_msgs::Imu::ConstPtr& imu_msg) {
+    robot_state.fbk.torso_ang_vel_body << imu_msg->angular_velocity.x,
+                                          imu_msg->angular_velocity.y,
+                                          imu_msg->angular_velocity.z;
 }
 
 void GazeboInterface::joy_callback(const sensor_msgs::Joy::ConstPtr& joy_msg) {
@@ -143,5 +157,3 @@ void GazeboInterface::right_ankle_state_callback(const unitree_legged_msgs::Moto
     robot_state.fbk.joint_pos[9] = joint_state_msg.q;
     robot_state.fbk.joint_vel[9] = joint_state_msg.dq;
 }
-
-}  // namespace robot
