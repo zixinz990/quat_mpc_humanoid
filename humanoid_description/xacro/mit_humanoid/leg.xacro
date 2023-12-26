@@ -163,7 +163,7 @@
         <origin xyz="-0.06435 0 -0.07499" rpy="0.0 0.436332 0.0"/>
         <parent link="right_hip_yaw"/>
         <child link="right_hip_abad"/>
-        <axis xyz="-1 0 0"/>
+        <axis xyz="1 0 0"/>
         <limit effort="34" lower="-6.28" upper="6.28" velocity="50"/>
         <dynamics damping="0.01" friction="0.2" rotor_inertia="0.01188"/>
     </joint>    
