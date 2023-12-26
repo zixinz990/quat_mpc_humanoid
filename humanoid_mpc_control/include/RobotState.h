@@ -59,6 +59,7 @@ class RobotControl {
     // Desired torso position
     Eigen::Vector3d torso_pos_d_world;
     Eigen::Vector3d torso_pos_d_rel;
+    Eigen::Vector3d torso_pos_d_body;
 
     // Desired torso attitude
     Eigen::Quaterniond torso_quat_d;
@@ -67,6 +68,7 @@ class RobotControl {
     // Desired torso velocity
     Eigen::Vector3d torso_lin_vel_d_world;
     Eigen::Vector3d torso_lin_vel_d_rel;
+    Eigen::Vector3d torso_lin_vel_d_body;
     Eigen::Vector3d torso_ang_vel_d_body;
 
     // Desired ground reaction force

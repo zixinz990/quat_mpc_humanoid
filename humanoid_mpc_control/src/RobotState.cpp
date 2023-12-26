@@ -21,9 +21,11 @@ void RobotFeedback::reset() {
 void RobotControl::reset() {
     torso_pos_d_world.setZero();
     torso_pos_d_rel.setZero();
+    torso_pos_d_body.setZero();
     torso_quat_d.setIdentity();
     torso_lin_vel_d_world.setZero();
     torso_lin_vel_d_rel.setZero();
+    torso_lin_vel_d_body.setZero();
     torso_ang_vel_d_body.setZero();
     grf_d.setZero();
     joint_pos_d.setZero();
@@ -49,7 +51,7 @@ void RobotParams::reset() {
     robot_inertia << 0.168459, 0.000124, 0.006493,
                      0.000124, 0.101358, 0.000278,
                      0.006493, 0.000278, 0.091754;
-    mu = 0.6;
+    mu = 0.7;
     grf_z_max = 500.0;
     mpc_dt = 0.01;
     mpc_horizon = 20;

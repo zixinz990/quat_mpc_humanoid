@@ -24,10 +24,10 @@ class GazeboInterface {
     void fbk_update();
     void send_cmd();
 
-   private:
     // Robot state
     RobotState robot_state;
 
+   private:
     // ROS publishers & subscribers
     ros::Publisher pub_joint_cmd[ACT_JOINTS];
     ros::Subscriber sub_joint_states[ACT_JOINTS];
