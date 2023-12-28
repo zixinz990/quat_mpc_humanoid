@@ -9,8 +9,8 @@
 
 int main(int argc, char **argv) {
     // Set target joint positions
-    double joint_pos[10] = {0.0, 0.0, -1.25 * 3.14 / 24, 3 * 3.14 / 24, -1.7 * 3.14 / 24,
-                            0.0, 0.0, -1.25 * 3.14 / 24, 3 * 3.14 / 24, -1.7 * 3.14 / 24};
+    double joint_pos[10] = {0.0, 0.0, -8 * M_PI / 180.0, 23.9 * M_PI / 180.0, -15.9 * M_PI / 180.0,
+                            0.0, 0.0, -8 * M_PI / 180.0, 23.9 * M_PI / 180.0, -15.9 * M_PI / 180.0};
 
     // Initialize ROS
     ros::init(argc, argv, "set_default_joint_pose");
