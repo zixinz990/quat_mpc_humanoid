@@ -63,15 +63,16 @@ include_directories(
 )
 
 ######################## LIBRARIES ########################
-# utils_lib
-add_library(utils_lib
+# ctrl_lib
+add_library(ctrl_lib
         src/RobotState.cpp
         src/GazeboInterface.cpp
         src/Kinematics.cpp
         src/Utils.cpp
         src/HumanoidModel.cpp
+        src/QuatMpc.cpp
 )
-target_link_libraries(utils_lib
+target_link_libraries(ctrl_lib
         ${catkin_LIBRARIES}
         altro::altro
         Eigen3::Eigen
@@ -80,11 +81,18 @@ target_link_libraries(utils_lib
 )
 
 ######################## MAIN EXECUTABLE TARGETS ########################
-# main
 add_executable(main
         src/Main.cpp
 )
 target_link_libraries(main
-        utils_lib
+        ctrl_lib
+        Eigen3::Eigen
+)
+
+add_executable(mpc_test
+        src/Test.cpp
+)
+target_link_libraries(mpc_test
+        ctrl_lib
         Eigen3::Eigen
 )

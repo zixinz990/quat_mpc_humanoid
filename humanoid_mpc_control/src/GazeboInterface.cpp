@@ -36,27 +36,41 @@ GazeboInterface::GazeboInterface(ros::NodeHandle& nh, string robot_name) {
 }
 
 void GazeboInterface::ctrl_update() {
+    // cout << "GAZEBO INTERFACE CTRL UPDATE" << endl;
     robot_state.ctrl.joint_pos_d = robot_state.fbk.joint_pos;
     robot_state.ctrl.joint_vel_d = robot_state.fbk.joint_vel;
 
-    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(0, 0) = robot_state.fbk.left_foot_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(0, 0));
-    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(LEG_DOF, 0) = robot_state.fbk.right_foot_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(3, 0));
+    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(0, 0) = robot_state.fbk.left_toe_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(0, 0)) +
+                                                           robot_state.fbk.left_heel_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(3, 0));
+
+    robot_state.ctrl.joint_tau_d.block<LEG_DOF, 1>(LEG_DOF, 0) = robot_state.fbk.right_toe_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(6, 0)) +
+                                                                 robot_state.fbk.right_heel_jac.transpose() * (-robot_state.ctrl.grf_d.block<3, 1>(9, 0));
+
     send_cmd();
 }
 
 void GazeboInterface::fbk_update() {
+    // cout << "GAZEBO INTERFACE FBK UPDATE" << endl;
     // Calculate rotation matrix
     robot_state.fbk.torso_rot_mat = robot_state.fbk.torso_quat.toRotationMatrix();
     robot_state.fbk.torso_euler = Utils::quat_to_euler(robot_state.fbk.torso_quat);
     robot_state.fbk.torso_rot_mat_z = Eigen::AngleAxisd(robot_state.fbk.torso_euler[2], Eigen::Vector3d::UnitZ());
 
     // Calculate foot position in body frame
-    robot_state.fbk.foot_pos_body.block<3, 1>(0, 0) = Kinematics::cal_left_foot_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
-    robot_state.fbk.foot_pos_body.block<3, 1>(3, 0) = Kinematics::cal_right_foot_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    // robot_state.fbk.foot_pos_body.block<3, 1>(0, 0) = Kinematics::cal_left_ankle_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    // robot_state.fbk.foot_pos_body.block<3, 1>(3, 0) = Kinematics::cal_right_ankle_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    robot_state.fbk.foot_pos_body.block<3, 1>(0, 0) = Kinematics::cal_left_toe_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    robot_state.fbk.foot_pos_body.block<3, 1>(0, 1) = Kinematics::cal_left_heel_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    robot_state.fbk.foot_pos_body.block<3, 1>(0, 2) = Kinematics::cal_right_toe_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    robot_state.fbk.foot_pos_body.block<3, 1>(0, 3) = Kinematics::cal_right_heel_pos_body(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
 
     // Calculate foot Jacobian
-    robot_state.fbk.left_foot_jac = Kinematics::cal_left_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
-    robot_state.fbk.right_foot_jac = Kinematics::cal_right_foot_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    // robot_state.fbk.left_foot_jac = Kinematics::cal_left_ankle_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    // robot_state.fbk.right_foot_jac = Kinematics::cal_right_ankle_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    robot_state.fbk.left_toe_jac = Kinematics::cal_left_toe_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    robot_state.fbk.left_heel_jac = Kinematics::cal_left_heel_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(0, 0));
+    robot_state.fbk.right_toe_jac = Kinematics::cal_right_toe_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
+    robot_state.fbk.right_heel_jac = Kinematics::cal_right_heel_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
 
     // Some coordinate transformation
     robot_state.fbk.torso_lin_vel_body = robot_state.fbk.torso_rot_mat.transpose() * robot_state.fbk.torso_lin_vel_world;

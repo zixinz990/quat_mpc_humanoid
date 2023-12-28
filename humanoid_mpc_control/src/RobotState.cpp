@@ -13,8 +13,12 @@ void RobotFeedback::reset() {
     torso_ang_vel_body.setZero();
     joint_pos.setZero();
     joint_vel.setZero();
-    left_foot_jac.setZero();
-    right_foot_jac.setZero();
+    left_ankle_jac.setZero();
+    right_ankle_jac.setZero();
+    left_toe_jac.setZero();
+    left_heel_jac.setZero();
+    right_toe_jac.setZero();
+    right_heel_jac.setZero();
     foot_pos_body.setZero();
 }
 
@@ -85,7 +89,7 @@ void RobotParams::load(ros::NodeHandle &nh) {
     robot_inertia << robot_inertia_xx, robot_inertia_xy, robot_inertia_xz,
                      robot_inertia_xy, robot_inertia_yy, robot_inertia_yz,
                      robot_inertia_xz, robot_inertia_yz, robot_inertia_zz;
-    nh.param("mu", mu, 0.6);
+    nh.param("mu", mu, 0.7);
     nh.param("grf_z_max", grf_z_max, 500.0);
     nh.param("mpc_dt", mpc_dt, 0.01);
     nh.param("mpc_horizon", mpc_horizon, 20);
@@ -108,15 +112,23 @@ void RobotParams::load(ros::NodeHandle &nh) {
                      mpc_q_7, mpc_q_8, mpc_q_9,
                      mpc_q_10, mpc_q_11, mpc_q_12;
     nh.param("mpc_quat_weight", mpc_quat_weight, 1.0);
-    double mpc_r_0, mpc_r_1, mpc_r_2, mpc_r_3, mpc_r_4, mpc_r_5;
+    double mpc_r_0, mpc_r_1, mpc_r_2, mpc_r_3, mpc_r_4, mpc_r_5, mpc_r_6, mpc_r_7, mpc_r_8, mpc_r_9, mpc_r_10, mpc_r_11;
     nh.param("mpc_r_0", mpc_r_0, 0.000001);
     nh.param("mpc_r_1", mpc_r_1, 0.000001);
     nh.param("mpc_r_2", mpc_r_2, 0.000001);
     nh.param("mpc_r_3", mpc_r_3, 0.000001);
     nh.param("mpc_r_4", mpc_r_4, 0.000001);
     nh.param("mpc_r_5", mpc_r_5, 0.000001);
+    nh.param("mpc_r_6", mpc_r_6, 0.000001);
+    nh.param("mpc_r_7", mpc_r_7, 0.000001);
+    nh.param("mpc_r_8", mpc_r_8, 0.000001);
+    nh.param("mpc_r_9", mpc_r_9, 0.000001);
+    nh.param("mpc_r_10", mpc_r_10, 0.000001);
+    nh.param("mpc_r_11", mpc_r_11, 0.000001);
     mpc_r_weights << mpc_r_0, mpc_r_1, mpc_r_2,
-                     mpc_r_3, mpc_r_4, mpc_r_5;
+                     mpc_r_3, mpc_r_4, mpc_r_5,
+                     mpc_r_6, mpc_r_7, mpc_r_8,
+                     mpc_r_9, mpc_r_10, mpc_r_11;
     nh.param("joint_kp", joint_kp, 300.0);
     nh.param("joint_kd", joint_kd, 10.0);
     nh.param("joy_vel_x_max", joy_vel_x_max, 1.0);
@@ -125,6 +137,6 @@ void RobotParams::load(ros::NodeHandle &nh) {
     nh.param("joy_roll_vel_max", joy_roll_vel_max, 1.0);
     nh.param("joy_pitch_vel_max", joy_pitch_vel_max, 1.0);
     nh.param("joy_yaw_vel_max", joy_yaw_vel_max, 1.0);
-    nh.param("torso_z_max", torso_z_max, 0.7);
+    nh.param("torso_z_max", torso_z_max, 0.85);
 }
 }  // namespace robot

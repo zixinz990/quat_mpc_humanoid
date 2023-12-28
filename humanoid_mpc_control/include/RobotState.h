@@ -8,7 +8,7 @@
 #define ACT_JOINTS 10
 #define LEG_DOF 5
 #define MPC_STATE_DIM 13
-#define MPC_INPUT_DIM 6
+#define MPC_INPUT_DIM 12
 
 namespace robot {
 class RobotFeedback {
@@ -43,11 +43,15 @@ class RobotFeedback {
     Eigen::Matrix<double, NUM_JOINTS, 1> joint_vel;
 
     // Foot Jacobian matrix
-    Eigen::Matrix<double, 3, LEG_DOF> left_foot_jac;
-    Eigen::Matrix<double, 3, LEG_DOF> right_foot_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> left_ankle_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> right_ankle_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> left_toe_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> left_heel_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> right_toe_jac;
+    Eigen::Matrix<double, 3, LEG_DOF> right_heel_jac;
 
     // Foot position
-    Eigen::Matrix<double, 3, 2> foot_pos_body;
+    Eigen::Matrix<double, 3, 4> foot_pos_body;
 };
 
 class RobotControl {
@@ -72,7 +76,7 @@ class RobotControl {
     Eigen::Vector3d torso_ang_vel_d_body;
 
     // Desired ground reaction force
-    Eigen::Matrix<double, 6, 1> grf_d;
+    Eigen::Matrix<double, MPC_INPUT_DIM, 1> grf_d;
 
     // Desired joint states
     Eigen::Matrix<double, NUM_JOINTS, 1> joint_pos_d;
