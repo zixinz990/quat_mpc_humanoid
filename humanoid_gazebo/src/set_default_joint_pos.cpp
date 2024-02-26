@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     ros::param::get("/robot_name", robot_name);
 
     // Create publishers for each servo
-    ros::Publisher servo_pub[12];
+    ros::Publisher servo_pub[10];
     servo_pub[0] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/left_hip_yaw_controller/command", 1);
     servo_pub[1] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/left_hip_abad_controller/command", 1);
     servo_pub[2] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/left_hip_pitch_controller/command", 1);

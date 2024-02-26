@@ -30,6 +30,7 @@ class GazeboInterface {
    private:
     // ROS publishers & subscribers
     ros::Publisher pub_joint_cmd[ACT_JOINTS];
+    ros::Publisher pub_torso_cmd;
     ros::Subscriber sub_joint_states[ACT_JOINTS];
     ros::Subscriber sub_torso_com_odom;
     ros::Subscriber sub_torso_imu;
@@ -37,6 +38,7 @@ class GazeboInterface {
 
     // ROS messages
     unitree_legged_msgs::LowCmd low_cmd;
+    nav_msgs::Odometry torso_com_cmd;
 
     // Callback functions
     void torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg);

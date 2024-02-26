@@ -15,6 +15,8 @@ GazeboInterface::GazeboInterface(ros::NodeHandle& nh, string robot_name) {
     pub_joint_cmd[8] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/right_knee_controller/command", 1);
     pub_joint_cmd[9] = nh.advertise<unitree_legged_msgs::MotorCmd>("/" + robot_name + "/right_ankle_controller/command", 1);
 
+    pub_torso_cmd = nh.advertise<nav_msgs::Odometry>("/" + robot_name + "/torso_com_cmd", 1);
+
     // ROS subscribers
     sub_joint_states[0] = nh.subscribe("/" + robot_name + "/left_hip_yaw_controller/state", 1, &GazeboInterface::left_hip_yaw_state_callback, this);
     sub_joint_states[1] = nh.subscribe("/" + robot_name + "/left_hip_abad_controller/state", 1, &GazeboInterface::left_hip_abad_state_callback, this);
@@ -72,6 +74,20 @@ void GazeboInterface::fbk_update() {
     robot_state.fbk.right_toe_jac = Kinematics::cal_right_toe_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
     robot_state.fbk.right_heel_jac = Kinematics::cal_right_heel_jac(robot_state.fbk.joint_pos.block<LEG_DOF, 1>(LEG_DOF, 0));
 
+    Eigen::FullPivLU<Eigen::Matrix<double, 3, 5>> lu_decomp_left_toe_jac(robot_state.fbk.left_toe_jac);
+    Eigen::FullPivLU<Eigen::Matrix<double, 3, 5>> lu_decomp_left_heel_jac(robot_state.fbk.left_heel_jac);
+    Eigen::FullPivLU<Eigen::Matrix<double, 3, 5>> lu_decomp_right_toe_jac(robot_state.fbk.right_toe_jac);
+    Eigen::FullPivLU<Eigen::Matrix<double, 3, 5>> lu_decomp_right_heel_jac(robot_state.fbk.right_heel_jac);
+
+    auto rank_left_toe_jac = lu_decomp_left_toe_jac.rank();
+    auto rank_left_heel_jac = lu_decomp_left_heel_jac.rank();
+    auto rank_right_toe_jac = lu_decomp_right_toe_jac.rank();
+    auto rank_right_heel_jac = lu_decomp_right_heel_jac.rank();
+
+    if (rank_left_toe_jac < 3 || rank_left_heel_jac < 3 || rank_right_toe_jac < 3 || rank_right_heel_jac < 3) {
+        std::cout << "Foot Jacobian is singular!" << std::endl;
+    }
+
     // Some coordinate transformation
     robot_state.fbk.torso_lin_vel_body = robot_state.fbk.torso_rot_mat.transpose() * robot_state.fbk.torso_lin_vel_world;
 }
@@ -88,6 +104,11 @@ void GazeboInterface::send_cmd() {
                                   robot_state.ctrl.joint_tau_d[i];
         pub_joint_cmd[i].publish(low_cmd.motorCmd[i]);
     }
+    torso_com_cmd.pose.pose.orientation.w = robot_state.ctrl.torso_quat_d.w();
+    torso_com_cmd.pose.pose.orientation.x = robot_state.ctrl.torso_quat_d.x();
+    torso_com_cmd.pose.pose.orientation.y = robot_state.ctrl.torso_quat_d.y();
+    torso_com_cmd.pose.pose.orientation.z = robot_state.ctrl.torso_quat_d.z();
+    pub_torso_cmd.publish(torso_com_cmd);
 }
 
 void GazeboInterface::torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg) {

@@ -33,7 +33,7 @@ QuatMpc::QuatMpc(RobotState &robot_state) {
         u_traj_ref.push_back(u_ref);
     }
 
-    robot_state.ctrl.torso_pos_d_world << 0.0, 0.0, 0.8;
+    robot_state.ctrl.torso_pos_d_world << 0.0, 0.0, 0.78;
 }
 
 void QuatMpc::update(RobotState &robot_state) {
@@ -176,7 +176,7 @@ void QuatMpc::ctrl_update(RobotState &robot_state) {
             robot_state.ctrl.grf_d.block<3, 1>(i * 3, 0) = u.segment<3>(i * 3);
         }
     }
-    cout << "grf_d: " << robot_state.ctrl.grf_d.transpose() << endl;
+    // cout << "grf_d: " << robot_state.ctrl.grf_d.transpose() << endl;
     first_iter = false;
 }
 

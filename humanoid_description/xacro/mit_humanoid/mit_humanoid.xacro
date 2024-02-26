@@ -45,7 +45,7 @@
         </visual>
     </link>
     <joint name="torso_com_joint" type="fixed">
-        <origin xyz="-0.003261 0.0 0.172278" rpy="0 0 0"/>
+        <origin xyz="-0.005546 0.000416 0.111722" rpy="0 0 0"/>
         <parent link="torso"/>
         <child link="torso_com"/>
     </joint>
