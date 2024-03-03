@@ -3,7 +3,8 @@ syms t1 t2 t3 t4 t5 real
 theta = [t1; t2; t3; t4; t5];
 
 %% LEFT FOOT
-p01 = [0.003261; 0.082; -0.172278];
+% p01 = [0.003261; 0.082; -0.172278];
+p01 = [0.005546; 0.082; -0.111722];
 R01 = basicRotMat("y", -0.174533) * basicRotMat("z", t1);
 T01 = [R01, p01; 0, 0, 0, 1];
 
@@ -40,7 +41,8 @@ left_heel_pos = T0_heel(1:3, 4);
 left_heel_jac = simplify(jacobian(left_heel_pos, theta));
 
 %% RIGHT FOOT
-p01 = [0.003261; -0.082; -0.172278];
+% p01 = [0.003261; -0.082; -0.172278];
+p01 = [0.005546; -0.082; -0.111722];
 R01 = basicRotMat("y", -0.174533) * basicRotMat("z", t1);
 T01 = [R01, p01; 0, 0, 0, 1];
 
