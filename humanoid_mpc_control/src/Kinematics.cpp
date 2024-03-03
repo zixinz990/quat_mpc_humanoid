@@ -310,7 +310,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_left_toe_pos_body(const Eigen::Matri
             t45_tmp * 0.013639587199321641) +
            t11 * t9 / 16.0) -
           t16 * t9 / 25.0)) +
-        ((t11 * t14 * -0.04 - t16 * t14 / 16.0) + 0.022768080323065449);
+        ((t11 * t14 * -0.04 - t16 * t14 / 16.0) + 0.025053080323065451);
     t14 = t15 * t45 + t10 * t77_tmp;
     left_toe_pos_body[1] =
         ((((((((t12 * 0.015740430829912711 + t17 * 0.01385) + t40 * 0.24916) +
@@ -339,7 +339,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_left_toe_pos_body(const Eigen::Matri
            t45_tmp * 0.0024050282809358488) +
           t11 * t30 / 16.0)) +
         (((t16 * t30 * -0.04 - t11 * t14 / 25.0) - t16 * t14 / 16.0) -
-         0.28290810159992358);
+         0.22235210159992361);
     return left_toe_pos_body;
 }
 
@@ -448,7 +448,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_left_heel_pos_body(const Eigen::Matr
             t45_tmp * 0.013639587199321641) -
            t11 * t9 * 0.0225) -
           t16 * t9 / 25.0)) +
-        ((t11 * t14 * -0.04 + t16 * t14 * 0.0225) + 0.022768080323065449);
+        ((t11 * t14 * -0.04 + t16 * t14 * 0.0225) + 0.025053080323065451);
     t14 = t15 * t45 + t10 * t77_tmp;
     left_heel_pos_body[1] =
         ((((((((t12 * 0.015740430829912711 + t17 * 0.01385) + t40 * 0.24916) +
@@ -477,7 +477,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_left_heel_pos_body(const Eigen::Matr
            t45_tmp * 0.0024050282809358488) -
           t11 * t30 * 0.0225)) +
         (((t16 * t30 * -0.04 - t11 * t14 / 25.0) + t16 * t14 * 0.0225) -
-         0.28290810159992358);
+         0.22235210159992361);
     return left_heel_pos_body;
 }
 
@@ -586,7 +586,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_right_toe_pos_body(const Eigen::Matr
             t45_tmp * 0.013639587199321641) +
            t11 * t9 / 16.0) -
           t16 * t9 / 25.0)) +
-        ((t11 * t14 * -0.04 - t16 * t14 / 16.0) + 0.022768080323065449);
+        ((t11 * t14 * -0.04 - t16 * t14 / 16.0) + 0.025053080323065451);
     t14 = t15 * t45 + t10 * t77_tmp;
     right_toe_pos_body[1] =
         ((((((((t12 * 0.015740430829912711 + t17 * 0.01385) + t40 * 0.24916) +
@@ -615,7 +615,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_right_toe_pos_body(const Eigen::Matr
            t45_tmp * 0.0024050282809358488) +
           t11 * t30 / 16.0)) +
         (((t16 * t30 * -0.04 - t11 * t14 / 25.0) - t16 * t14 / 16.0) -
-         0.28290810159992358);
+         0.22235210159992361);
     return right_toe_pos_body;
 }
 
@@ -724,7 +724,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_right_heel_pos_body(const Eigen::Mat
             t45_tmp * 0.013639587199321641) -
            t11 * t9 * 0.0225) -
           t16 * t9 / 25.0)) +
-        ((t11 * t14 * -0.04 + t16 * t14 * 0.0225) + 0.022768080323065449);
+        ((t11 * t14 * -0.04 + t16 * t14 * 0.0225) + 0.025053080323065451);
     t14 = t15 * t45 + t10 * t77_tmp;
     right_heel_pos_body[1] =
         ((((((((t12 * 0.015740430829912711 + t17 * 0.01385) + t40 * 0.24916) +
@@ -753,7 +753,7 @@ Eigen::Matrix<double, 3, 1> Kinematics::cal_right_heel_pos_body(const Eigen::Mat
            t45_tmp * 0.0024050282809358488) -
           t11 * t30 * 0.0225)) +
         (((t16 * t30 * -0.04 - t11 * t14 / 25.0) + t16 * t14 * 0.0225) -
-         0.28290810159992358);
+         0.22235210159992361);
     return right_heel_pos_body;
 }
 
