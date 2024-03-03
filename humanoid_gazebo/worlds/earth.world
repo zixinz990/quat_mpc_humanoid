@@ -34,5 +34,58 @@
         <include>
             <uri>model://ground_plane</uri>
         </include>
+        <model name="static_environment">
+        <static>true</static>
+            <link name="static_box_1">
+                <pose>0.11 0 0.02 0 0 0</pose>
+                <collision name="static_box_collision_1">
+                    <geometry>
+                        <box>
+                            <size>0.05 0.3 0.04</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="static_box_2">
+                <pose>-0.115 0 0.02 0 0 0</pose>
+                <collision name="static_box_collision_2">
+                    <geometry>
+                        <box>
+                            <size>0.05 0.3 0.04</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="static_box_3">
+                <pose>0 0.13 0.02 0 0 0</pose>
+                <collision name="static_box_collision_3">
+                    <geometry>
+                        <box>
+                            <size>0.17 0.05 0.04</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="static_box_4">
+                <pose>0 -0.13 0.02 0 0 0</pose>
+                <collision name="static_box_collision_4">
+                    <geometry>
+                        <box>
+                            <size>0.17 0.05 0.04</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+            <link name="static_box_5">
+                <pose>0 0 0.02 0 0 0</pose>
+                <collision name="static_box_collision_5">
+                    <geometry>
+                        <box>
+                            <size>0.17 0.105 0.04</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
     </world>
 </sdf>

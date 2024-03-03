@@ -39,7 +39,7 @@
         <parent link="left_hip_yaw"/>
         <child link="left_hip_abad"/>
         <axis xyz="1 0 0"/>
-        <limit effort="999" lower="-100.0" upper="100.0" velocity="50"/>
+        <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
         <dynamics damping="0.01" friction="0.2" rotor_inertia="0.01188"/>
     </joint>
     <link name="left_upper_leg">
@@ -57,7 +57,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0.0 0.0 -0.16"/>
             <geometry>
-                <cylinder radius="0.035" length="0.18"/>
+                <box size="0.01 0.01 0.01"/>
             </geometry>
         </collision>
     </link>
@@ -84,7 +84,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0.0 0.0 -0.15"/>
             <geometry>
-                <cylinder radius="0.035" length="0.16"/>
+                <box size="0.01 0.01 0.01"/>
             </geometry>
         </collision>
     </link>
@@ -162,7 +162,7 @@
         <parent link="right_hip_yaw"/>
         <child link="right_hip_abad"/>
         <axis xyz="1 0 0"/>
-        <limit effort="999" lower="-100.0" upper="100.0" velocity="50"/>
+        <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
         <dynamics damping="0.01" friction="0.2" rotor_inertia="0.01188"/>
     </joint>    
     <link name="right_upper_leg">
@@ -180,7 +180,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0.0 0.0 -0.16"/>
             <geometry>
-                <cylinder radius="0.035" length="0.18"/>
+                <box size="0.01 0.01 0.01"/>
             </geometry>
         </collision>
     </link>
@@ -207,7 +207,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0.0 0.0 -0.16"/>
             <geometry>
-                <cylinder radius="0.035" length="0.18"/>
+                <box size="0.01 0.01 0.01"/>
             </geometry>
         </collision>
     </link>

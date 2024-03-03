@@ -99,7 +99,7 @@
     <parent link="left_upper_leg"/>
     <child link="left_lower_leg"/>
     <axis xyz="0 1 0"/>
-    <limit effort="999" lower="0.0" upper="3.0" velocity="50"/>
+    <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
     <dynamics damping="0.01" friction="0.2" rotor_inertia="0.0792"/>
   </joint>
   <link name="left_foot">
@@ -126,7 +126,7 @@
     <parent link="left_lower_leg"/>
     <child link="left_foot"/>
     <axis xyz="0 1 0"/>
-    <limit effort="999" lower="-1.5" upper="1.5" velocity="50"/>
+    <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
     <dynamics damping="0.01" friction="0.2" rotor_inertia="0.04752"/>
   </joint>
   <link name="right_hip_yaw">
@@ -222,7 +222,7 @@
     <parent link="right_upper_leg"/>
     <child link="right_lower_leg"/>
     <axis xyz="0 1 0"/>
-    <limit effort="999" lower="0." upper="3.0" velocity="50"/>
+    <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
     <dynamics damping="0.01" friction="0.2" rotor_inertia="0.0792"/>
   </joint>
   <link name="right_foot">
@@ -249,7 +249,7 @@
     <parent link="right_lower_leg"/>
     <child link="right_foot"/>
     <axis xyz="0 1 0"/>
-    <limit effort="999" lower="-1.5" upper="1.5" velocity="50"/>
+    <limit effort="999" lower="-6.28" upper="6.28" velocity="50"/>
     <dynamics damping="0.01" friction="0.2" rotor_inertia="0.04752"/>
   </joint>
   <link name="left_shoulder">
