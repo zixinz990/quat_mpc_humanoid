@@ -34,6 +34,8 @@ QuatMpc::QuatMpc(RobotState &robot_state) {
     }
 
     robot_state.ctrl.torso_pos_d_world << 0.0, 0.0, 0.78;
+
+    attitude_traj_count = 0;
 }
 
 void QuatMpc::update(RobotState &robot_state) {
@@ -63,19 +65,27 @@ void QuatMpc::goal_update(RobotState &robot_state) {
     robot_state.ctrl.torso_pos_d_body = robot_state.fbk.torso_rot_mat.transpose() * (robot_state.ctrl.torso_pos_d_world - robot_state.fbk.torso_pos_world);
 
     // Update torso attitude goal
+    if (robot_state.joy_cmd.sin_ang_vel) {
+        robot_state.ctrl.torso_ang_vel_d_body[0] = 3.14 / 12 * sin(2 * 3.14 / 900 * attitude_traj_count);
+        robot_state.ctrl.torso_ang_vel_d_body[1] = 3.14 / 12 * sin(2 * 3.14 / 900 * attitude_traj_count);
+        robot_state.ctrl.torso_ang_vel_d_body[2] = 3.14 / 12 * sin(2 * 3.14 / 900 * attitude_traj_count);
+        attitude_traj_count += 1;
+    }
+
     Eigen::Vector4d torso_quat_d_vec;
     torso_quat_d_vec << robot_state.ctrl.torso_quat_d.w(),
                         robot_state.ctrl.torso_quat_d.x(),
                         robot_state.ctrl.torso_quat_d.y(),
                         robot_state.ctrl.torso_quat_d.z();
-    torso_quat_d_vec = torso_quat_d_vec + 0.5 * Utils::G(torso_quat_d_vec) * robot_state.ctrl.torso_ang_vel_d_body * h;
+    // torso_quat_d_vec = torso_quat_d_vec + 0.5 * Utils::G(torso_quat_d_vec) * robot_state.ctrl.torso_ang_vel_d_body * 0.01;
+    torso_quat_d_vec = Utils::quat_rk4(torso_quat_d_vec, robot_state.ctrl.torso_ang_vel_d_body, 0.01);
     torso_quat_d_vec = torso_quat_d_vec / torso_quat_d_vec.norm();
     robot_state.ctrl.torso_quat_d.w() = torso_quat_d_vec[0];
     robot_state.ctrl.torso_quat_d.x() = torso_quat_d_vec[1];
     robot_state.ctrl.torso_quat_d.y() = torso_quat_d_vec[2];
     robot_state.ctrl.torso_quat_d.z() = torso_quat_d_vec[3];
     
-    robot_state.ctrl.torso_ang_vel_d_body.setZero();
+    // robot_state.ctrl.torso_ang_vel_d_body.setZero();
 
     // Update reference state trajectory
     x_traj_ref.clear();
@@ -114,7 +124,7 @@ void QuatMpc::ctrl_update(RobotState &robot_state) {
         C.setZero();
         for (int i = 0; i < 4; i++) {
             Eigen::Matrix<a_float, 6, 1> b_vec;
-            b_vec << 0, 0, 0, 0, -500.0, 0;
+            b_vec << 0, 0, 0, 0, -2000.0, 0;
             C.segment<6>(i * 6) = C_mat * robot_state.fbk.torso_rot_mat * u_vec.segment<3>(i * 3) + b_vec;
         }
     };
@@ -139,7 +149,7 @@ void QuatMpc::ctrl_update(RobotState &robot_state) {
                                  robot_state.params.mpc_q_weights.data(), robot_state.params.mpc_r_weights.data(), robot_state.params.mpc_quat_weight,
                                  x_traj_ref.at(i).data(), u_traj_ref.at(i).data(), i, 0);
     }
-    solver.SetConstraint(friction_cone_con, friction_cone_jac, 6 * 4, ConstraintType::INEQUALITY, "friction cone", 0, horizon);
+    // solver.SetConstraint(friction_cone_con, friction_cone_jac, 6 * 4, ConstraintType::INEQUALITY, "friction cone", 0, horizon);
     
     x_init.setZero();
     x_init << 0.0, 0.0, 0.0,

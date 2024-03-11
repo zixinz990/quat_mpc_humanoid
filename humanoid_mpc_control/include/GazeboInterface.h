@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
@@ -23,6 +24,7 @@ class GazeboInterface {
     void ctrl_update();
     void fbk_update();
     void send_cmd();
+    void debug_broadcast();
 
     // Robot state
     RobotState robot_state;
@@ -31,6 +33,8 @@ class GazeboInterface {
     // ROS publishers & subscribers
     ros::Publisher pub_joint_cmd[ACT_JOINTS];
     ros::Publisher pub_torso_cmd;
+    ros::Publisher foot_pos_world_pub[4];
+
     ros::Subscriber sub_joint_states[ACT_JOINTS];
     ros::Subscriber sub_torso_com_odom;
     ros::Subscriber sub_torso_imu;
@@ -39,6 +43,7 @@ class GazeboInterface {
     // ROS messages
     unitree_legged_msgs::LowCmd low_cmd;
     nav_msgs::Odometry torso_com_cmd;
+    geometry_msgs::Point foot_pos_world_msg[4];
 
     // Callback functions
     void torso_com_odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg);

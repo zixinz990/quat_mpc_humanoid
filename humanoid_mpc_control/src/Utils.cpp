@@ -34,6 +34,15 @@ Eigen::Vector3d Utils::quat_to_euler(Eigen::Quaterniond quat) {
     return rst;
 }
 
+Eigen::Vector4d Utils::quat_rk4(Eigen::Vector4d q, Eigen::Vector3d w, double dt) {
+    Eigen::Vector4d k1, k2, k3, k4;
+    k1 = dt * 0.5 * G(q) * w;
+    k2 = dt * 0.5 * G(q + 0.5 * k1) * w;
+    k3 = dt * 0.5 * G(q + 0.5 * k2) * w;
+    k4 = dt * 0.5 * G(q + k3) * w;
+    return q + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
+}
+
 Eigen::Vector4d Utils::cayley_map(Eigen::Vector3d phi) {
     Eigen::Vector4d phi_quat;
     phi_quat << 1, phi[0], phi[1], phi[2];

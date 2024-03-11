@@ -42,5 +42,7 @@ class QuatMpc {
     std::vector<Eigen::Matrix<double, MPC_STATE_DIM, 1>> x_traj_ref;  // reference state trajectory
     std::vector<Eigen::Matrix<double, MPC_INPUT_DIM, 1>> u_traj_ref;  // reference input trajectory
     Eigen::Matrix<double, MPC_STATE_DIM, 1> x_init;                   // initial state
+
+    int attitude_traj_count;
 };
 }  // namespace mpc

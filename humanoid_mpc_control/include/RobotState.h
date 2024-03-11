@@ -52,6 +52,7 @@ class RobotFeedback {
 
     // Foot position
     Eigen::Matrix<double, 3, 4> foot_pos_body;
+    Eigen::Matrix<double, 3, 4> foot_pos_world;
 };
 
 class RobotControl {
@@ -95,6 +96,8 @@ class RobotJoyCmd {
     double joy_roll_vel, joy_pitch_vel, joy_yaw_vel;
 
     bool stop_control;
+
+    bool sin_ang_vel;
 };
 
 class RobotParams {

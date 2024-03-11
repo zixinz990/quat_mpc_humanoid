@@ -20,6 +20,7 @@ void RobotFeedback::reset() {
     right_toe_jac.setZero();
     right_heel_jac.setZero();
     foot_pos_body.setZero();
+    foot_pos_world.setZero();
 }
 
 void RobotControl::reset() {
@@ -45,6 +46,7 @@ void RobotJoyCmd::reset() {
     joy_pitch_vel = 0.0;
     joy_yaw_vel = 0.0;
     stop_control = false;
+    sin_ang_vel = false;
 }
 
 void RobotParams::reset() {

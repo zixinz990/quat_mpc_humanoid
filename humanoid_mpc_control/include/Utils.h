@@ -18,6 +18,8 @@ class Utils {
 
     static Eigen::Vector3d quat_to_euler(Eigen::Quaterniond quat);
 
+    static Eigen::Vector4d quat_rk4(Eigen::Vector4d q, Eigen::Vector3d w, double dt);
+
     // Cayley Map: phi to quaternion
     static Eigen::Vector4d cayley_map(Eigen::Vector3d phi);
 
